@@ -335,7 +335,7 @@
         var text = node && node.textContent ? node.textContent.replace(/^\s+|\s+$/g, '') : '';
         return text || null;
     }
-    var urls = ['/feed/cena/SP17961', 'https://sanaplant.sk/feed/cena/SP17961'];
+    var urls = ['/api/cena?sku=SP17961', 'https://sanaplant.sk/feed/cena/SP17961'];
     function tryUrl(i) {
         if (i >= urls.length) { show('aktuálna cena'); return; }
         var req = new XMLHttpRequest();
