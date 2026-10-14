@@ -208,11 +208,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <p style="margin:0 0 10px 0;font-size:14px;color:#6d6d6d;"><strong style="color:#1d1d1b;">*|FEEDBLOCK:https://sanaplant.sk/feed/cena/SP17961/|*
-*|FEEDITEMS:[$count=1]|*
-*|FEEDITEM:CONTENT_TEXT|*
-*|END:FEEDITEMS|*
-*|END:FEEDBLOCK|*</strong> &middot; s kódom SPNL5 získate zľavu aj dopravu zdarma</p>
+                                    <p style="margin:0 0 10px 0;font-size:14px;color:#6d6d6d;"><strong id="ency-price" style="color:#1d1d1b;">*|FEEDBLOCK:https://sanaplant.sk/feed/cena/SP17961/|**|FEEDITEMS:[$count=1]|**|FEEDITEM:CONTENT_TEXT|**|END:FEEDITEMS|**|END:FEEDBLOCK|*</strong> &middot; s kódom SPNL5 získate zľavu aj dopravu zdarma</p>
                                     <p style="margin:0;font-size:14px;">
                                         <a href="https://sanaplant.sk/katalog/odborne-publikacie/encyklopedia-chorob-skodcov-a-vyzivy-zahradnickych-rastlin/" target="_blank" rel="noopener" style="color:#53AF33;text-decoration:underline;font-weight:bold;">Kúpiť encyklopédiu so zľavou</a>
                                     </p>
@@ -323,5 +319,38 @@
 </tr>
 </tbody>
 </table>
+<!--[if !mso]><!-->
+<script type="text/javascript">
+(function () {
+    var el = document.getElementById('ency-price');
+    if (!el || el.textContent.indexOf('FEEDBLOCK') === -1) return;
+    function show(text) {
+        el.textContent = text;
+    }
+    function fromXml(xml) {
+        var doc = new DOMParser().parseFromString(xml, 'text/xml');
+        var items = doc.getElementsByTagName('item');
+        if (!items.length) return null;
+        var node = items[0].getElementsByTagName('title')[0] || items[0].getElementsByTagName('description')[0];
+        var text = node && node.textContent ? node.textContent.replace(/^\s+|\s+$/g, '') : '';
+        return text || null;
+    }
+    var urls = ['/feed/cena/SP17961', 'https://sanaplant.sk/feed/cena/SP17961'];
+    function tryUrl(i) {
+        if (i >= urls.length) { show('aktuálna cena'); return; }
+        var req = new XMLHttpRequest();
+        req.open('GET', urls[i], true);
+        req.onreadystatechange = function () {
+            if (req.readyState !== 4) return;
+            var price = (req.status === 200) ? fromXml(req.responseText) : null;
+            if (price) show(price);
+            else tryUrl(i + 1);
+        };
+        try { req.send(); } catch (e) { tryUrl(i + 1); }
+    }
+    tryUrl(0);
+})();
+</script>
+<!--<![endif]-->
 </body>
 </html>

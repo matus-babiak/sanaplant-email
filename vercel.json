@@ -3,6 +3,8 @@
   "rewrites": [
     { "source": "/1", "destination": "/sanaplant-email-privitanie.html" },
     { "source": "/2", "destination": "/sanaplant-email-2.html" },
-    { "source": "/3", "destination": "/sanaplant-email-3.html" }
+    { "source": "/3", "destination": "/sanaplant-email-3.html" },
+    { "source": "/feed/cena/:sku", "destination": "https://sanaplant.sk/feed/cena/:sku" },
+    { "source": "/feed/cena/:sku/", "destination": "https://sanaplant.sk/feed/cena/:sku/" }
   ]
 }
